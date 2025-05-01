@@ -49,7 +49,10 @@ export interface ProtocolSupport {
 }
 
 export interface McpSdkSupportManifest {
-  /** The language or platform of the SDK */
+  /** The schema version this manifest complies with */
+  schemaVersion: string;
+  
+   /** The language or platform of the SDK */
   sdk_platform: SdkPlatform;
   
   /** The version of the SDK */

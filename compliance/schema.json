@@ -3,7 +3,7 @@
     "title": "MCP SDK Support Manifest",
     "description": "Defines which MCP specification features are supported by an SDK",
     "type": "object",
-    "required": ["sdk_platform", "sdk_version", "mcp_spec_support", "last_updated"],
+    "required": ["schemaVersion", "sdk_platform", "sdk_version", "mcp_spec_support", "last_updated"]
     "properties": {
       "sdk_platform": {
         "type": "string",

@@ -6,7 +6,12 @@ export type SdkPlatform =
   | "python" 
   | "typescript" 
   | "java" 
-  | "csharp";
+  | "csharp"
+  | "kotlin"
+  | "go"
+  | "ruby"
+  | "rust"
+  | "swift";
 
 export type ProtocolVersion = string; // Format: YYYY-MM-DD
 
@@ -50,7 +55,7 @@ export interface ProtocolSupport {
 
 export interface McpSdkSupportManifest {
   /** The schema version this manifest complies with */
-  schemaVersion: string;
+  schema_version: string;
   
    /** The language or platform of the SDK */
   sdk_platform: SdkPlatform;

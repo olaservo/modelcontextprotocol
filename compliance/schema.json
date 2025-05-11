@@ -1,21 +1,19 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "MCP SDK Support Manifest",
-    {
-      "schemaVersion": {
+    "description": "Defines which MCP specification features are supported by an SDK",
+    "type": "object",
+    "required": ["schema_version", "sdk_platform", "sdk_version", "mcp_spec_support", "last_updated"],
+    "properties": {
+      "schema_version": {
         "type": "string",
         "description": "The version of the schema this manifest complies with",
         "pattern": "^[0-9]+(\\.[0-9]+)*(-[a-zA-Z0-9]+)?(\\+[a-zA-Z0-9]+)?$"
-      }
-    }
-    "description": "Defines which MCP specification features are supported by an SDK",
-    "type": "object",
-    "required": ["schemaVersion", "sdk_platform", "sdk_version", "mcp_spec_support", "last_updated"]
-    "properties": {
+      },
       "sdk_platform": {
         "type": "string",
         "description": "The language or platform of the SDK",
-        "enum": ["python", "typescript", "java", "csharp"]
+        "enum": ["python", "typescript", "java", "csharp", "kotlin", "go", "ruby", "rust", "swift"]
       },
       "sdk_version": {
         "type": "string",
@@ -82,4 +80,4 @@
       }
     },
     "additionalProperties": false
-  }
+}

@@ -121,29 +121,19 @@ MCP organizes functionality into distinct layers similar to network protocol sta
 │ APPLICATION LAYER                               │
 │ MCP Protocol Features                           │
 │ • Tools, Resources, Prompts                     │
-│ • Elicitation, Sampling                         │  
+│ • Elicitation, Sampling                         │
 │ • Business logic and user interactions          │
-│ • Example: Progress notifications, data queries │
 └─────────────────────────────────────────────────┘
 ┌─────────────────────────────────────────────────┐
-│ SESSION LAYER                                   │
-│ Authentication & Session Management             │
-│ • OAuth 2.1 flows (above transport layer)       │
-│ • API keys and credentials                      │
-│ • Session establishment and lifecycle           │
-│ • Example: Bearer tokens, user permissions      │
-└─────────────────────────────────────────────────┘
-┌─────────────────────────────────────────────────┐
-│ TRANSPORT LAYER                                 │
-│ Message Delivery                                │
-│ • STDIO, HTTP, Custom transports                │
+│ TRANSPORT & SECURITY LAYER                      │
+│ Message Delivery & Authentication               │
+│ • STDIO (env vars), HTTP (OAuth), Custom        │
 │ • JSON-RPC message framing                      │
-│ • Connection management                         │
-│ • Example: SSE connections, process pipes       │
+│ • Connection management and credentials         │
 └─────────────────────────────────────────────────┘
 ```
 
-For example: Credential validation happens at the session layer (establishing trust), while requesting user preferences happens at the application layer (using that established trust).
+For example: Credential validation happens at the transport & security layer (establishing trust), while requesting user preferences happens at the application layer (using that established trust).
 
 ## Capability Negotiation
 

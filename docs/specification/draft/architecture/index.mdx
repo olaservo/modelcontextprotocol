@@ -112,6 +112,34 @@ implementation:
    - Protocol designed for future extensibility
    - Backwards compatibility is maintained
 
+## Layer Separation in MCP
+
+MCP follows established network architecture principles by operating at distinct layers of the protocol stack:
+
+```
+┌─────────────────────────────────────────────────┐
+│ APPLICATION LAYER                               │
+│ MCP Protocol Features                           │
+│ • Tools, Resources, Prompts                     │
+│ • Elicitation, Sampling                         │  
+│ • Business logic and user interactions          │
+└─────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────┐
+│ SESSION LAYER                                   │
+│ Authentication & Session Management             │
+│ • OAuth 2.1 flows                               │
+│ • API keys and credentials                      │
+│ • Session establishment and lifecycle           │
+└─────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────┐
+│ TRANSPORT LAYER                                 │
+│ Message Delivery                                │
+│ • STDIO, HTTP, Custom transports                │
+│ • JSON-RPC message framing                      │
+│ • Connection management                         │
+└─────────────────────────────────────────────────┘
+```
+
 ## Capability Negotiation
 
 The Model Context Protocol uses a capability-based negotiation system where clients and

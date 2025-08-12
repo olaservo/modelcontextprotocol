@@ -103,40 +103,6 @@ The key to good instructions is focusing on **what tools/resources don't convey*
 "instructions": "GitHub integration server. Workflow: 1) 'auth_github', 2) 'list_repos', 3) 'clone_repo'. API rate limits apply - check 'rate_status' before bulk operations."
 ```
 
-### Instruction Patterns
-
-#### Multi-Step Workflows
-
-```json
-{
-  "instructions": "Database operations require this sequence: 1) 'connect_db' (save connection_id), 2) 'begin_transaction', 3) Your operations, 4) 'commit' or 'rollback'. Connection auto-closes after 5 minutes idle."
-}
-```
-
-#### Conditional Tool Usage
-
-```json
-{
-  "instructions": "If 'analyze_code' returns complexity > 10, always run 'suggest_refactoring'. For Python files, use 'py_lint' before 'analyze_code' for better results."
-}
-```
-
-#### Resource-Tool Relationships
-
-```json
-{
-  "instructions": "The 'config.json' resource controls behavior of all 'process_*' tools. After modifying any resource, run 'reload_config' before subsequent tool calls."
-}
-```
-
-#### Performance Optimization
-
-```json
-{
-  "instructions": "For large repositories: 1) Use 'shallow_clone' instead of 'clone', 2) Run 'index_files' once before multiple 'search' operations (index cached for 1 hour), 3) Batch file reads with 'read_multiple' to avoid rate limits."
-}
-```
-
 ### What Server Instructions Can't Do:
 
 - **Guarantee certain behavior:** As with any text you give to an LLM, your instructions aren't going to be followed the same way 100% of the time.  Anything you ask a model to do is like rolling a dice  The reliability of any instructions will vary based on randomness, sampling parameters, model, client implementation, other servers/tools at play, and many other variables.
@@ -153,9 +119,21 @@ TODO
 
 At the time of writing, only a few host applications definitively support server instructions - for a complete list, refer to the [Clients](https://modelcontextprotocol.io/clients) page in the MCP documentation.  Claude Code and VSCode (Insider's Edition) were the clients used to demonstrate server instructions for this post.
 
+For a basic demo of server instructions in action, you can use the [Everything reference server](https://github.com/modelcontextprotocol/servers/tree/main/src/everything) to confirm that the client supports this feature:
+
+1. Install the Everything Server in your host: The link above includes instructions on how to do this in a few popular applications.  In the example below, we're using [Claude Code](https://docs.anthropic.com/en/docs/claude-code/mcp).
+2. Once you've confirmed that the server is connected, ask the model: `does the everything server tools have any special 
+  instructions?`
+3. If the model can see your instructions, you should get a response like the one below:
+
+<img
+    src="/posts/images/claude_code_instructions.JPG"
+    alt="Screenshot of response which reads: Server instructions are working!"
+  />
+
 ### Fallback Strategies
 
-Since not all clients support instructions, this is something you will want to implement conditionally based on client capabilities.
+Since not all clients support instructions, this is something you may want to implement conditionally based on client capabilities.
 
 TODO
 

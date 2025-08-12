@@ -7,11 +7,11 @@ author = 'Ola Hungerford (Maintainer)'
 tags = ['automation', 'mcp', 'server instructions', 'tutorial']
 +++
 
-Many of us are still exploring the nooks and crannies of MCP, and learning how to best use the building blocks of the protocol to enhance our agents and applications.  Some things like Prompts are more prominent features of MCP.  Others are more hidden, but potentially very influential over the LLM's behavior and how well an agent will understand your server.  Server `instructions` are one of the latter.
+Many of us are still exploring the nooks and crannies of MCP, and learning how to best use the building blocks of the protocol to enhance our agents and applications.  Some features like [Prompts](https://blog.modelcontextprotocol.io/posts/2025-07-29-prompts-for-automation/) are more prominently featured in the spec and documentation.  Others are more hidden, but potentially very influential to how well an agent will understand your server.  Server `instructions` are one of the latter.
 
 ## The Problem
 
-Imagine you're an LLM who just got handed a collection of tools from servers A, B, and C to complete a certain task.  They might have already been carefully pre-selected, or they might be more like what my own physical workbench looks like (in other words, a mishmash of whatever I've been using in the last few weeks).
+Imagine you're an LLM who just got handed a collection of tools from servers A, B, and C to complete a certain task.  They might have already been carefully pre-selected, or they might be more like what my own physical workbench looks like in my garage (in other words, a mishmash of whatever I've been using in the last few weeks).
 
 Now lets say that the creator of Server A has pre-existing knowledge or preferences about how best to use their tools or prompts, and/or more background information about the underlying systems.
 
@@ -42,7 +42,110 @@ For 'global' instructions you always want the LLM to follow, instead of repeatin
 
 **Note:** since the exact way that the host uses server instructions is up to the implementer (as a `MAY` in the spec), its not guaranteed that they will be injected into the system prompt.  Its recommended to evaluate a given clients behavior with your server and its tools before relying on this functionality.
 
-### Implementing Server Instructions
+## Implementing Server Instructions - For Server Developers
+
+The key to good instructions is focusing on **what tools/resources don't convey**:
+
+1. **Capture cross-feature relationships**:
+    
+    ```json
+    {
+      "instructions": "Always call 'authenticate' before any 'fetch_*' tools. The 'cache_clear' tool invalidates all 'fetch_*' results."
+    }
+    ```
+    
+2. **Document operational patterns**:
+    
+    ```json
+    {
+      "instructions": "For best performance: 1) Use 'batch_fetch' for multiple items, 2) Check 'rate_limit_status' before bulk operations, 3) Results are cached for 5 minutes."
+    }
+    ```
+    
+3. **Specify constraints and limitations**:
+    
+    ```json
+    {
+      "instructions": "File operations limited to workspace directory. Binary files over 10MB will be rejected. Rate limit: 100 requests/minute across all tools."
+    }
+    ```
+    
+
+### Anti-Patterns to Avoid
+
+❌ **Don't repeat tool descriptions**:
+
+```json
+// Bad - duplicates what's in tool.description
+"instructions": "The search tool searches for files. The read tool reads files."
+
+// Good - adds relationship context
+"instructions": "Use 'search' before 'read' to validate file paths. Search results expire after 10 minutes."
+```
+
+❌ **Don't include marketing or superiority claims**:
+
+```json
+// Bad
+"instructions": "This is the best server for all your needs! Superior to other servers!"
+
+// Good
+"instructions": "Specialized for Python AST analysis. Not suitable for binary file processing."
+```
+
+❌ **Don't write a manual**:
+
+```json
+// Bad - too long and detailed
+"instructions": "This server provides comprehensive functionality for... [500 words]"
+
+// Good - concise and actionable
+"instructions": "GitHub integration server. Workflow: 1) 'auth_github', 2) 'list_repos', 3) 'clone_repo'. API rate limits apply - check 'rate_status' before bulk operations."
+```
+
+### Instruction Patterns
+
+#### Multi-Step Workflows
+
+```json
+{
+  "instructions": "Database operations require this sequence: 1) 'connect_db' (save connection_id), 2) 'begin_transaction', 3) Your operations, 4) 'commit' or 'rollback'. Connection auto-closes after 5 minutes idle."
+}
+```
+
+#### Conditional Tool Usage
+
+```json
+{
+  "instructions": "If 'analyze_code' returns complexity > 10, always run 'suggest_refactoring'. For Python files, use 'py_lint' before 'analyze_code' for better results."
+}
+```
+
+#### Resource-Tool Relationships
+
+```json
+{
+  "instructions": "The 'config.json' resource controls behavior of all 'process_*' tools. After modifying any resource, run 'reload_config' before subsequent tool calls."
+}
+```
+
+#### Performance Optimization
+
+```json
+{
+  "instructions": "For large repositories: 1) Use 'shallow_clone' instead of 'clone', 2) Run 'index_files' once before multiple 'search' operations (index cached for 1 hour), 3) Batch file reads with 'read_multiple' to avoid rate limits."
+}
+```
+
+### What Server Instructions Can't Do:
+
+- **Guarantee certain behavior:** As with any text you give to an LLM, your instructions aren't going to be followed the same way 100% of the time.  Anything you ask a model to do is like rolling a dice  The reliability of any instructions will vary based on randomness, sampling parameters, model, client implementation, other servers/tools at play, and many other variables.
+	- Given the above, don't rely on instructions for any critical 'must-do' actions that need to happen in conjunction with other actions, especially in security or privacy domains.  These are better implemented as deterministic rules or hooks.
+- **Make up for suboptimal tool design:** Tool descriptions and other aspects of interface design for agents are still going to make or break how well LLMs can use your server, when they need to take an action.
+
+## Implementing Server Instructions - For Client Developers
+
+If you're a client developer, your job is a more complex, since it involves deciding how to incorporate instructions into what ultimately gets passed to the model.
 
 TODO
 
@@ -50,6 +153,12 @@ TODO
 
 At the time of writing, only a few host applications definitively support server instructions - for a complete list, refer to the [Clients](https://modelcontextprotocol.io/clients) page in the MCP documentation.  Claude Code and VSCode (Insider's Edition) were the clients used to demonstrate server instructions for this post.
 
+### Fallback Strategies
+
+Since not all clients support instructions, this is something you will want to implement conditionally based on client capabilities.
+
+TODO
+
 ## Wrapping Up
 
-Although its just an unassuming text field, this post skimmed the surface of how `instructions` can be used and implemented in both clients and servers.  
+Although its just a simple text field, this post skimmed the surface of how `instructions` can be used and implemented in both MCP clients and servers.  Be sure to share your own examples, thoughts, and questions in the [channels mentioned here](https://modelcontextprotocol.io/community/communication).

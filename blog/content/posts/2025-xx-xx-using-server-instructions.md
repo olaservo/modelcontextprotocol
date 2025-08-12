@@ -23,10 +23,6 @@ Some examples could include:
 - 'Always look up the user's language and accessibility preferences before attempting to fetch any resources with this server.'
 - 'Only use Tool A to ask the user for their preferences if elicitation is supported.  Otherwise, fall back to using default user preferences.'
 
-## Example: TODO more specific and detailed example
-
-TODO
-
 ## Solutions
 
 One solution could be to include this extra information in every tool description or prompt provided by the server.  However, going back to the physical tool analogy: you can only depend on 'labeling' each tool if there is enough space to describe them.  A model's context window limitations are similar, since they have hard limits to how much information you can fit into that space.  (And even if all those labels can fit within your model's context limits, the more tokens you cram into that space, the more likely it is you might cause more confusion than clarity.)
@@ -40,11 +36,19 @@ Imagine a pile of post-it notes, all filled out with instructions on how to do t
 
 For 'global' instructions you always want the LLM to follow, instead of repeating them in multiple tool descriptions or prompts in a server, it can make more sense to include them in the model's system prompt instead.  This is where **server instructions** come in, to give the server a way to inject information that the LLM should always 'read' in order to understand how to use the server - independent of individual prompts, tools or messages.
 
-**Note:** since the exact way that the host uses server instructions is up to the implementer (as a `MAY` in the spec), its not guaranteed that they will be injected into the system prompt.  Its recommended to evaluate a given clients behavior with your server and its tools before relying on this functionality.
+**Note:** since the exact way that the host uses server instructions is up to the implementer (as a `MAY` in the spec), its not 100% guaranteed that they will be injected into the system prompt.  Its always recommended to evaluate a given clients behavior with your server and its tools before relying on this functionality.
 
-## Implementing Server Instructions - For Server Developers
+## Implementing Server Instructions Example: Tool Preferences For Prompts
 
-The key to good instructions is focusing on **what tools/resources don't convey**:
+One specific personal example where this is helpful: I often create a combination of Prompts and embedded Resources as 'cheat sheets' which help assemble information from multiple sources including Confluence and GitHub.  I like to include these prompts in a MCP server so that I can re-use them easily in either an IDE or other apps.
+
+In this case, I want the LLM to always prioritize using Confluence and GitHub specific tools for getting certain internal information, rather than using more generic fetch or web search tools.
+
+TODO: add rest of example and grab screenshot of it working
+
+## Implementing Server Instructions: General Tips For Server Developers
+
+One key to good instructions is focusing on **what tools/resources don't convey**:
 
 1. **Capture cross-feature relationships**:
     

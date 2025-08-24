@@ -201,7 +201,7 @@ function InstructionEditDialog({ instruction }: { instruction: InstructionEditor
 
 ## Currently Supported Host Applications
 
-At the time of writing, only a few host applications definitely support server instructions.  For a complete list, refer to the [Clients](https://modelcontextprotocol.io/clients) page in the MCP documentation.  Claude Code was used to demonstrate server instructions for this post.
+At the time of writing only a few host applications support server instructions.  For a complete list, refer to the [Clients](https://modelcontextprotocol.io/clients) page in the MCP documentation.  Claude Code was used to demonstrate server instructions for this post.
 
 For a basic demo of server instructions in action, you can use the [Everything reference server](https://github.com/modelcontextprotocol/servers/tree/main/src/everything) to confirm that your client supports this feature:
 

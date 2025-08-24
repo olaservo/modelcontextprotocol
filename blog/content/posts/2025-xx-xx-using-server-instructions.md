@@ -199,7 +199,7 @@ function InstructionEditDialog({ instruction }: { instruction: InstructionEditor
 - [ ] Sanitize before prompt injection
 - [ ] Test with malicious instructions
 
-## Which host applications support server instructions?
+## Currently Supported Host Applications
 
 At the time of writing, only a few host applications definitely support server instructions.  For a complete list, refer to the [Clients](https://modelcontextprotocol.io/clients) page in the MCP documentation.  Claude Code was used to demonstrate server instructions for this post.
 

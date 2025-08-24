@@ -25,7 +25,7 @@ Some examples could include:
 
 ## Solutions
 
-One solution could be to include this extra information in every tool description or prompt provided by the server.  However, going back to the physical tool analogy: you can only depend on 'labeling' each tool if there is enough space to describe them.  A model's context window limitations are similar, since they have hard limits to how much information you can fit into that space.  (And even if all those labels can fit within your model's context limits, the more tokens you cram into that space, the more likely it is you might cause more confusion than clarity.)
+One solution could be to include this extra information in every tool description or prompt provided by the server.  Going back to the physical tool analogy, however: you can only depend on "labeling" each tool if there is enough space to describe them.  A model's context window is limited - there's only so much information you can fit into that space.  And even if all those labels can fit within your model's context limits, the more tokens you cram into that space, the more likely it is you might cause more confusion than clarity.
 
 Alternatively, relying on just prompts to give common instructions like this means that:
 

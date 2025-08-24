@@ -217,4 +217,4 @@ For a basic demo of server instructions in action, you can use the [Everything r
 
 ## Wrapping Up
 
-Although its just a simple text field, this post skimmed the surface of how `instructions` can be used and implemented in both MCP clients and servers.  Be sure to share your own examples, thoughts, and questions in the [channels mentioned here](https://modelcontextprotocol.io/community/communication).
+Although it's just a simple text field, this post skimmed the surface of how server instructions can be used and implemented in both MCP clients and servers.  Be sure to share your own examples, thoughts, and questions on [Discord](https://modelcontextprotocol.io/community/communication).

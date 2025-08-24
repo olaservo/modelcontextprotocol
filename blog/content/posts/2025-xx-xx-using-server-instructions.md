@@ -205,7 +205,7 @@ At the time of writing only a few host applications support server instructions.
 
 For a basic demo of server instructions in action, you can use the [Everything reference server](https://github.com/modelcontextprotocol/servers/tree/main/src/everything) to confirm that your client supports this feature:
 
-1. Install the Everything Server in your host: The link above includes instructions on how to do this in a few popular applications.  In the example below, we're using [Claude Code](https://docs.anthropic.com/en/docs/claude-code/mcp).
+1. Install the Everything Server in your host. The link above includes instructions on how to do this in a few popular applications.  In the example below, we're using [Claude Code](https://docs.anthropic.com/en/docs/claude-code/mcp).
 2. Once you've confirmed that the server is connected, ask the model: `does the everything server tools have any special 
   instructions?`
 3. If the model can see your instructions, you should get a response like the one below:

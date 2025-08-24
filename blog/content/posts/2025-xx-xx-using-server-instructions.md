@@ -19,7 +19,7 @@ Some examples could include:
 
 - 'Tool C should always be used after tool A and B'
 - 'This prompt or tool works best if specialized tools from other servers X and Y are available'
-- 'All Tools are rate limited to 10 requests per minute'
+- 'All tools are rate limited to 10 requests per minute'
 - 'Always look up the user's language and accessibility preferences before attempting to fetch any resources with this server.'
 - 'Only use Tool A to ask the user for their preferences if elicitation is supported.  Otherwise, fall back to using default user preferences.'
 

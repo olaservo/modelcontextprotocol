@@ -19,7 +19,7 @@ Some examples could include:
 
 - 'Tool C should always be used after tool A and B'
 - 'This prompt or tool works best if specialized tools from other servers X and Y are available'
-- 'All tools are rate limited to 10 requests per minute'
+- 'Server A tools are rate limited to 10 requests per minute'
 - 'Always look up the user's language and accessibility preferences before attempting to fetch any resources with this server.'
 - 'Only use tool A to ask the user for their preferences if elicitation is supported.  Otherwise, fall back to using default user preferences.'
 
@@ -44,7 +44,7 @@ This is where **server instructions** come in. Server instructions give the serv
 
 One specific personal example where this is helpful: I often create a combination of Prompts and embedded Resources as "cheat sheets" which help assemble information from multiple sources including Confluence and GitHub.  I like to include these prompts in a MCP server so that I can reuse them easily in either an IDE or other apps.
 
-In this case, I want the LLM to always prioritize using Confluence and GitHub-specific tools for getting certain internal information rather than using more generic fetch or web search tools.
+In this case, I want the LLM to always prioritize using Confluence and GitHub specific tools for getting certain internal information, rather than using more generic fetch or web search tools.  This is especially important for internal sites where generic tools would fail entirely.
 
 TODO: add rest of example and grab screenshot of it working
 
@@ -198,7 +198,6 @@ function InstructionEditDialog({ instruction }: { instruction: InstructionEditor
 - [ ] Add edit/disable capabilities
 - [ ] Log instruction usage
 - [ ] Set reasonable length limits
-- [ ] Sanitize before prompt injection
 - [ ] Test with malicious instructions
 
 ## Currently Supported Host Applications

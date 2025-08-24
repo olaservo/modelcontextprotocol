@@ -7,7 +7,7 @@ author = 'Ola Hungerford (Maintainer)'
 tags = ['automation', 'mcp', 'server instructions', 'tutorial']
 +++
 
-Many of us are still exploring the nooks and crannies of MCP, and learning how to best use the building blocks of the protocol to enhance our agents and applications.  Some features like [Prompts](https://blog.modelcontextprotocol.io/posts/2025-07-29-prompts-for-automation/) are more prominently featured in the spec and documentation.  Others are more hidden, but potentially very influential to how well an agent will understand your server.  Server `instructions` are one of the latter.
+Many of us are still exploring the nooks and crannies of MCP and learning how to best use the building blocks of the protocol to enhance our agents and applications.  Some features, like [Prompts](https://blog.modelcontextprotocol.io/posts/2025-07-29-prompts-for-automation/), are more frequently implemented and used.  Others may appear a bit more obscure but have a lot of influence on how well an agent will understand your server.  Server instructions are one of the latter.
 
 ## The Problem
 

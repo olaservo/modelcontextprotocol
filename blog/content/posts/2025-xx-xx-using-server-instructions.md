@@ -21,7 +21,7 @@ Some examples could include:
 - 'This prompt or tool works best if specialized tools from other servers X and Y are available'
 - 'All tools are rate limited to 10 requests per minute'
 - 'Always look up the user's language and accessibility preferences before attempting to fetch any resources with this server.'
-- 'Only use Tool A to ask the user for their preferences if elicitation is supported.  Otherwise, fall back to using default user preferences.'
+- 'Only use tool A to ask the user for their preferences if elicitation is supported.  Otherwise, fall back to using default user preferences.'
 
 ## Solutions
 
@@ -32,23 +32,25 @@ Alternatively, relying on just prompts to give common instructions like this mea
 - The prompt always needs to be selected by the user, and
 - The instructions are more likely to get lost in the shuffle of other messages.  
 
-Imagine a pile of post-it notes, all filled out with instructions on how to do this or that with a drawer full of tools.  Its totally possible that you have the right notes lined up in front of you to do everything reliably, but its not always the most efficient way to provide this type of context.
+Imagine a pile of post-it notes, all filled with instructions on how to do things with a drawer full of tools.  It's totally possible that you have the right notes lined up in front of you to do everything reliably, but it's not always the most efficient way to provide this type of context.
 
-For 'global' instructions you always want the LLM to follow, instead of repeating them in multiple tool descriptions or prompts in a server, it can make more sense to include them in the model's system prompt instead.  This is where **server instructions** come in, to give the server a way to inject information that the LLM should always 'read' in order to understand how to use the server - independent of individual prompts, tools or messages.
+For global instructions that you want the LLM to always follow - instead of including them in multiple tool descriptions or prompts, it can make more sense to include them in the model's system prompt instead.
 
-**Note:** since the exact way that the host uses server instructions is up to the implementer (as a `MAY` in the spec), its not 100% guaranteed that they will be injected into the system prompt.  Its always recommended to evaluate a given clients behavior with your server and its tools before relying on this functionality.
+This is where **server instructions** come in. Server instructions give the server a way to inject information that the LLM should always read in order to understand how to use the server - independent of individual prompts, tools, or messages.
+
+**Note:** because the exact way that the MCP host uses server instructions is up to the implementer, it's not always guaranteed that they will be injected into the system prompt.  It's always recommended to evaluate a client's behavior with your server and its tools before relying on this functionality.
 
 ## Implementing Server Instructions Example: Tool Preferences For Prompts
 
-One specific personal example where this is helpful: I often create a combination of Prompts and embedded Resources as 'cheat sheets' which help assemble information from multiple sources including Confluence and GitHub.  I like to include these prompts in a MCP server so that I can re-use them easily in either an IDE or other apps.
+One specific personal example where this is helpful: I often create a combination of Prompts and embedded Resources as "cheat sheets" which help assemble information from multiple sources including Confluence and GitHub.  I like to include these prompts in a MCP server so that I can reuse them easily in either an IDE or other apps.
 
-In this case, I want the LLM to always prioritize using Confluence and GitHub specific tools for getting certain internal information, rather than using more generic fetch or web search tools.
+In this case, I want the LLM to always prioritize using Confluence and GitHub-specific tools for getting certain internal information rather than using more generic fetch or web search tools.
 
 TODO: add rest of example and grab screenshot of it working
 
 ## Implementing Server Instructions: General Tips For Server Developers
 
-One key to good instructions is focusing on **what tools/resources don't convey**:
+One key to good instructions is focusing on **what tools and resources don't convey**:
 
 1. **Capture cross-feature relationships**:
     
@@ -110,8 +112,8 @@ One key to good instructions is focusing on **what tools/resources don't convey*
 ### What Server Instructions Can't Do:
 
 - **Guarantee certain behavior:** As with any text you give to an LLM, your instructions aren't going to be followed the same way 100% of the time.  Anything you ask a model to do is like rolling a dice  The reliability of any instructions will vary based on randomness, sampling parameters, model, client implementation, other servers/tools at play, and many other variables.
-	- Given the above, don't rely on instructions for any critical 'must-do' actions that need to happen in conjunction with other actions, especially in security or privacy domains.  These are better implemented as deterministic rules or hooks.
-- **Make up for suboptimal tool design:** Tool descriptions and other aspects of interface design for agents are still going to make or break how well LLMs can use your server, when they need to take an action.
+	- Don't rely on instructions for any critical actions that need to happen in conjunction with other actions, especially in security or privacy domains. These are better implemented as deterministic rules or hooks.
+- **Account for suboptimal tool design:** Tool descriptions and other aspects of interface design for agents are still going to make or break how well LLMs can use your server when they need to take an action.
 
 ## Implementing Server Instructions: For Client Developers
 

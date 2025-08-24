@@ -13,7 +13,7 @@ Many of us are still exploring the nooks and crannies of MCP and learning how to
 
 Imagine you're a Large Language Model (LLM) who just got handed a collection of tools from servers A, B, and C to complete a task.  They might have already been carefully pre-selected or they might be more like what my physical workbench looks like in my garage - a mishmash of whatever I've been using in the last few weeks.
 
-Now lets say that the creator of Server A has pre-existing knowledge or preferences about how best to use their tools or prompts, and/or more background information about the underlying systems.
+Now lets say that the developer of Server A has pre-existing knowledge or preferences about how best to use their tools or prompts, as well as more background information about the underlying systems that power them.
 
 Some examples could include:
 

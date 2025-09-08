@@ -48,7 +48,7 @@ In this case, I want the LLM to always prioritize using Confluence and GitHub sp
 
 ### The Prompt (With Embedded Resource)
 
-Here is an example of a prompt called `architecture_overview` which I 
+Here is an example of a prompt called `architecture_overview` which we 
 can use to reference a list of links to project documentation and 
 create a one page overview based on the latest sources:
 
@@ -102,7 +102,6 @@ current state, and strategic considerations.
 And here is a (fictional) example of a resource to include with this prompt:
 
 ```markdown
-
 # CloudPay Platform Documentation
 
 ## Project Management
@@ -129,10 +128,7 @@ However, this is the most common result I get when I use this prompt:
 TODO: show LLM trying to use default tools in VSCode.
 
 ### Using the Prompt: After Adding Instructions
-
-I could solve this problem by adding instructions to every prompt 
-that needs to fetch internal content.  However, this isn't ideal 
-from a maintenance or duplication standpoint.  
+  
 To ensure the LLM uses the correct tools, I can include the following 
 in the server's instructions:
 
@@ -150,6 +146,10 @@ the LLM knows that it should use the more specialized tools
 for fetching content from these sources:
 
 TODO: show 'after'
+
+I could solve this problem by adding instructions to every prompt 
+that needs to fetch internal content.  However, this isn't ideal 
+from a maintenance or duplication standpoint.
 
 ## Implementing Server Instructions: General Tips For Server Developers
 

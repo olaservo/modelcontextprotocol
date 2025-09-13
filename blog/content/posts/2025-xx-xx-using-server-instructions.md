@@ -1,7 +1,7 @@
 +++
-date = '2025-08-04T18:00:00+01:00'
-publishDate = '2025-08-04T18:00:00+01:00'
-draft = true
+date = '2025-09-22T00:00:00+00:00'
+publishDate = '2025-09-22T00:00:00+00:00'
+draft = false
 title = 'Server Instructions: Giving LLMs a user manual for your server'
 author = 'Ola Hungerford (Maintainer)'
 tags = ['automation', 'mcp', 'server instructions', 'tutorial']

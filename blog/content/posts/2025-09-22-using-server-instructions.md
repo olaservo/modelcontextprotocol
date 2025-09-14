@@ -4,7 +4,7 @@ publishDate = '2025-09-22T00:00:00+00:00'
 draft = false
 title = 'Server Instructions: Giving LLMs a user manual for your server'
 author = 'Ola Hungerford (Maintainer)'
-tags = ['automation', 'mcp', 'server instructions', 'tutorial']
+tags = ['automation', 'mcp', 'server instructions', 'tools']
 +++
 
 Many of us are still exploring the nooks and crannies of MCP and learning how to best use the building blocks of the protocol to enhance our agents and applications.  Some features, like [Prompts](https://blog.modelcontextprotocol.io/posts/2025-07-29-prompts-for-automation/), are more frequently implemented and used.  Others may appear a bit more obscure but have a lot of influence on how well an agent will understand your server.  Server instructions are one of the latter.
@@ -40,116 +40,9 @@ This is where **server instructions** come in. Server instructions give the serv
 
 **Note:** because the exact way that the MCP host uses server instructions is up to the implementer, it's not always guaranteed that they will be injected into the system prompt.  It's always recommended to evaluate a client's behavior with your server and its tools before relying on this functionality.
 
-## Implementing Server Instructions Example: Tool Preferences For Prompts
+## Implementing Server Instructions Example: Optimizing Common GitHub Workflows
 
-One specific personal example where this is helpful: I often create a combination of Prompts and embedded Resources as "cheat sheets" which help assemble information from multiple sources including Confluence and GitHub.  I like to include these prompts in a MCP server so that I can reuse them easily in either an IDE or other apps.
-
-In this case, I want the LLM to always prioritize using Confluence and GitHub specific tools for getting internal information, rather than using more generic fetch or web search tools.  This is especially important for internal sites where generic tools could fail entirely.
-
-### The Prompt (With Embedded Resource)
-
-Here is an example of a prompt called `architecture_overview` which we 
-can use to reference a list of links to project documentation and 
-create a one page overview based on the latest sources:
-
-```markdown
-Fetch content from the sources listed in the provided document 
-and reformat the results into a one-page system architecture 
-overview document in the following format:
-
-## **Header Section**
-- **System/Project Name** and version
-- **Status** (Draft, Under Review, Approved)
-
-## **Executive Summary** (2-3 sentences)
-Brief description of the system's purpose and business value.
-
-## **Architecture Overview**
-**High-Level Diagram** - A simplified visual showing major components, 
-their relationships, and data flows. This should take up about 30-40% 
-of the page and must be formatted as a Mermaid diagram.
-
-**Key Components** - Brief descriptions of 3-5 main system components 
-with their primary responsibilities.
-
-## **Technical Stack**
-- **Frontend**: Technologies and frameworks
-- **Backend**: Languages, frameworks, runtime
-- **Database**: Type and specific technologies
-- **Infrastructure**: Cloud provider, deployment model
-- **Key Integrations**: External systems and APIs
-
-## **Quality Attributes**
-- **Performance**: Target metrics (response time, throughput)
-- **Scalability**: Approach and limits
-- **Security**: Key measures and compliance
-- **Availability**: SLA targets and approach
-
-## **Critical Decisions & Trade-offs**
-2-3 bullet points on major architectural decisions and their rationale.
-
-## **Risks & Mitigations**
-Top 2-3 technical risks with mitigation strategies.
-
-## **Next Steps/Recommendations**
-Immediate actions or considerations for evolution.
-
-Maintain extreme conciseness while ensuring the document provides 
-enough context for stakeholders to understand the system's design, 
-current state, and strategic considerations.
-```
-
-And here is a (fictional) example of a resource to include with this prompt:
-
-```markdown
-# CloudPay Platform Documentation
-
-## Project Management
-- **Product Requirements**: https://confluence.cloudpay.io/display/PROD/Payment+Platform+PRD
-- **Project Roadmap**: https://confluence.cloudpay.io/display/PMO/2024+Platform+Roadmap
-- **Status Reports**: https://confluence.cloudpay.io/display/PMO/Weekly+Status+Updates
-
-## Technical Documentation
-- **System Architecture**: https://github.com/cloudpay/platform/blob/main/docs/ARCHITECTURE.md
-- **API Design**: https://github.com/cloudpay/platform/blob/main/docs/api/README.md
-- **Service Docs**: https://github.com/cloudpay/platform/tree/main/services
-- **Deployment Guide**: https://github.com/cloudpay/platform/blob/main/docs/deployment/GUIDE.md
-- **Security Policies**: https://confluence.cloudpay.io/display/SEC/Platform+Security
-```
-
-### Using the Prompt: Before Adding Instructions
-
-In this example I have the following MCP servers configured:
-- **Atlassian Server**: For accessing Confluence pages
-- **GitHub Server**: For fetching GitHub repository content
-
-However, this is the most common result I get when I use this prompt:
-
-TODO: show LLM trying to use default tools in VSCode.
-
-### Using the Prompt: After Adding Instructions
-  
-To ensure the LLM uses the correct tools, I can include the following 
-in the server's instructions:
-
-```json
-{
-  "instructions": "When fetching content from Confluence URLs 
-  (containing 'confluence' in the domain), ALWAYS use tools from the Atlassian server. 
-  When fetching content from GitHub URLs, ALWAYS use the GitHub server or GH CLI. 
-  Do NOT use generic fetch or web search tools for these domains."
-}
-```
-
-After adding these server instructions to my prompt server, 
-the LLM knows that it should use the more specialized tools 
-for fetching content from these sources:
-
-TODO: show 'after'
-
-I could solve this problem by adding instructions to every prompt 
-that needs to fetch internal content.  However, this isn't ideal 
-from a maintenance or duplication standpoint.
+TODO
 
 ## Implementing Server Instructions: General Tips For Server Developers
 
@@ -236,4 +129,16 @@ For a basic demo of server instructions in action, you can use the [Everything r
 
 ## Wrapping Up
 
-Although it's just a simple text field, this post skimmed the surface of how server instructions can be used and implemented in both MCP servers.  Be sure to share your own examples, thoughts, and questions on [Discord](https://modelcontextprotocol.io/community/communication).
+Although it's just a simple text field, this post skimmed the surface of how server instructions can be used and implemented in both MCP servers.  Be sure to share your own examples, thoughts, and questions on [Discord](https://modelcontextprotocol.io/community/communication).  
+
+## Acknowledgements
+
+Parts of this blog post were sourced from discussions with the MCP community, contributors, and maintainers including: 
+
+https://github.com/tadasant
+https://github.com/digitarald
+https://github.com/connor4312
+https://github.com/evalstate
+https://github.com/localden
+https://github.com/cliffhall
+https://github.com/toby

@@ -42,7 +42,63 @@ This is where **server instructions** come in. Server instructions give the serv
 
 ## Implementing Server Instructions Example: Optimizing Common GitHub Workflows
 
-TODO
+A concrete example of server instructions in action comes from the [GitHub MCP server](https://github.com/github/github-mcp-server). Even with advanced options like toolsets for optimizing tool selection, models may not consistently follow optimal workflow patterns or struggle to 'learn' the right combinations of tools through trial and error.
+
+### The Problem: Pull Request Reviews Gone Wrong
+
+Consider a common scenario where an LLM might be asked to "review this pull request." Without more guidance, here's what can happen:
+
+**Before Server Instructions:**
+
+1. Model uses `create_and_submit_pull_request_review` tool
+2. Tries to add a generic review comment
+3. Cannot add line-specific comments because the review was already submitted
+4. Results in a superficial review with no targeted feedback
+
+The model has no default way of knowing that GitHub's API requires a specific workflow for complex reviews: create a pending review first, add individual comments, then submit everything together.
+
+### The Solution: Workflow-Aware Instructions
+
+The GitHub server now generates dynamic server instructions based on enabled toolsets:
+
+```go
+func GenerateInstructions(enabledToolsets []string) string {
+    var instructions []string
+    
+    // Universal context management - always present
+    baseInstruction := "GitHub API responses can overflow context windows. Strategy: 1) Always prefer 'search_*' tools over 'list_*' tools when possible, 2) Process large datasets in batches of 5-10 items, 3) For summarization tasks, fetch minimal data first, then drill down into specifics."
+    
+    // Toolset-specific instructions
+    if contains(enabledToolsets, "pull_requests") {
+        instructions = append(instructions, "PR review workflow: Use 'create_pending_pull_request_review' → 'add_comment_to_pending_review' → 'submit_pending_pull_request_review' for complex reviews with line-specific comments.")
+    }
+    
+    // Cross-toolset intelligence  
+    if contains(enabledToolsets, "pull_requests") && contains(enabledToolsets, "context") {
+        instructions = append(instructions, "For team workflows: Use 'get_teams' and 'get_team_members' before assigning PR reviewers.")
+    }
+    
+    return strings.Join(append([]string{baseInstruction}, instructions...), " ")
+}
+```
+
+**After Server Instructions:**
+
+1. Model creates a pending review with `create_pending_pull_request_review`
+2. Adds specific line-by-line feedback using `add_comment_to_pending_review`
+3. Submits the complete review with `submit_pending_pull_request_review`
+4. Results in detailed code reviews with targeted feedback
+
+### The Results
+
+The GitHub MCP server now provides context-aware guidance that scales with usage:
+
+- **Empty toolsets**: Basic API guidance and context management only
+- **Single toolsets**: Specific workflow instructions for that domain
+- **Multiple toolsets**: Smart combinations showing cross-feature workflows
+- **All toolsets**: Comprehensive workflow orchestration across GitHub's entire API surface
+
+For example, with `issues` + `pull_requests` toolsets enabled, the server automatically guides models to link issues to PRs using "closes #123" syntax. With security toolsets enabled, it provides alert prioritization: secret scanning → dependabot → code scanning.
 
 ## Implementing Server Instructions: General Tips For Server Developers
 

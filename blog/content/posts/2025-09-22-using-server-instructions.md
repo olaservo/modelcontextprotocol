@@ -195,6 +195,7 @@ Parts of this blog post were sourced from discussions with the MCP community, co
 - [@cliffhall](https://github.com/cliffhall)
 - [@connor4312](https://github.com/connor4312)
 - [@digitarald](https://github.com/digitarald)
+- [@dsp-ant](https://github.com/dsp-ant)
 - [@evalstate](https://github.com/evalstate)
 - [@ivan-saorin](https://github.com/ivan-saorin)
 - [@jegelstaff](https://github.com/jegelstaff)

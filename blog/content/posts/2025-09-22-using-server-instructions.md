@@ -73,11 +73,6 @@ func GenerateInstructions(enabledToolsets []string) string {
         instructions = append(instructions, "PR review workflow: Use 'create_pending_pull_request_review' → 'add_comment_to_pending_review' → 'submit_pending_pull_request_review' for complex reviews with line-specific comments.")
     }
     
-    // Cross-toolset intelligence  
-    if contains(enabledToolsets, "pull_requests") && contains(enabledToolsets, "context") {
-        instructions = append(instructions, "For team workflows: Use 'get_teams' and 'get_team_members' before assigning PR reviewers.")
-    }
-    
     return strings.Join(append([]string{baseInstruction}, instructions...), " ")
 }
 ```

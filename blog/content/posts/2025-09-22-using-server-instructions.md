@@ -189,12 +189,15 @@ Although it's just a simple text field, this post skimmed the surface of how ser
 
 ## Acknowledgements
 
-Parts of this blog post were sourced from discussions with the MCP community, contributors, and maintainers including: 
+Parts of this blog post were sourced from discussions with the MCP community, contributors, and maintainers including:
 
-https://github.com/tadasant
-https://github.com/digitarald
-https://github.com/connor4312
-https://github.com/evalstate
-https://github.com/localden
-https://github.com/cliffhall
-https://github.com/toby
+- [@akolotov](https://github.com/akolotov)
+- [@cliffhall](https://github.com/cliffhall)
+- [@connor4312](https://github.com/connor4312)
+- [@digitarald](https://github.com/digitarald)
+- [@evalstate](https://github.com/evalstate)
+- [@ivan-saorin](https://github.com/ivan-saorin)
+- [@jegelstaff](https://github.com/jegelstaff)
+- [@localden](https://github.com/localden)
+- [@tadasant](https://github.com/tadasant)
+- [@toby](https://github.com/toby)

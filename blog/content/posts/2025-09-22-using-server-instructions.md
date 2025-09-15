@@ -42,24 +42,15 @@ This is where **server instructions** come in. Server instructions give the serv
 
 ## Implementing Server Instructions Example: Optimizing Common GitHub Workflows
 
-A concrete example of server instructions in action comes from the [GitHub MCP server](https://github.com/github/github-mcp-server). Even with advanced options like toolsets for optimizing tool selection, models may not consistently follow optimal workflow patterns or struggle to 'learn' the right combinations of tools through trial and error.
+A concrete example of server instructions in action comes from my experiments with the [GitHub MCP server](https://github.com/github/github-mcp-server). Even with advanced options like toolsets for optimizing tool selection, models may not consistently follow optimal multi-tool workflow patterns or struggle to 'learn' the right combinations of tools through trial and error.
 
-### The Problem: Pull Request Reviews Gone Wrong
+### The Problem: Detailed Pull Request Reviews
 
-Consider a common scenario where an LLM might be asked to "review this pull request." Without more guidance, here's what can happen:
-
-**Before Server Instructions:**
-
-1. Model uses `create_and_submit_pull_request_review` tool
-2. Tries to add a generic review comment
-3. Cannot add line-specific comments because the review was already submitted
-4. Results in a superficial review with no targeted feedback
-
-The model has no default way of knowing that GitHub's API requires a specific workflow for complex reviews: create a pending review first, add individual comments, then submit everything together.
+One common use case where I thought instructions could be helpful is when asking an LLM to "Review pull request #123." Without more guidance, a model might decide to over-simplify and use the `create_and_submit_pull_request_review` tool to add all review feedback in a single comment.  This isn't as helpful as leaving multiple inline comments for a detailed code review.
 
 ### The Solution: Workflow-Aware Instructions
 
-The GitHub server now generates dynamic server instructions based on enabled toolsets:
+One solution I tested with the GitHub server is to add instructions based on enabled toolsets.  My hypothesis was that this would improve the consistency of workflows across models, while still ensuring that we're only loading relevant instructions for the tools we want to use.  Here is an example of what I added for if the `pull_requests` toolset is enabled:
 
 ```go
 func GenerateInstructions(enabledToolsets []string) string {
@@ -70,30 +61,33 @@ func GenerateInstructions(enabledToolsets []string) string {
     
     // Toolset-specific instructions
     if contains(enabledToolsets, "pull_requests") {
-        instructions = append(instructions, "PR review workflow: Use 'create_pending_pull_request_review' → 'add_comment_to_pending_review' → 'submit_pending_pull_request_review' for complex reviews with line-specific comments.")
+        instructions = append(instructions, "PR review workflow: Always use 'create_pending_pull_request_review' → 'add_comment_to_pending_review' → 'submit_pending_pull_request_review' for complex reviews with line-specific comments.")
     }
     
     return strings.Join(append([]string{baseInstruction}, instructions...), " ")
 }
 ```
 
-**After Server Instructions:**
+### Measuring Effectiveness: Quantitative Results
 
-1. Model creates a pending review with `create_pending_pull_request_review`
-2. Adds specific line-by-line feedback using `add_comment_to_pending_review`
-3. Submits the complete review with `submit_pending_pull_request_review`
-4. Results in detailed code reviews with targeted feedback
+To validate the impact of server instructions, I ran a simple controlled evaluation in VSCode comparing model behavior with and without the PR review workflow instruction. Using 40 GitHub PR review sessions on the same set of code changes, I measured whether models followed the optimal three-step workflow.
 
-### The Results
+I used the following tool usage pattern to differentiate between successful vs unsuccessful reviews:
 
-The GitHub MCP server now provides context-aware guidance that scales with usage:
+- **Success:** `create_pending_pull_request_review` → `add_comment_to_pending_review` → `submit_pending_pull_request_review`
+- **Failure:** Single-step `create_and_submit_pull_request_review` OR no review tools used.  (Sometimes the model decided just to summarize feedback but didn't leave any comments on the PR.)
 
-- **Empty toolsets**: Basic API guidance and context management only
-- **Single toolsets**: Specific workflow instructions for that domain
-- **Multiple toolsets**: Smart combinations showing cross-feature workflows
-- **All toolsets**: Comprehensive workflow orchestration across GitHub's entire API surface
+You can find more setup details and raw data from this evaluation in [this repo](https://github.com/olaservo/mcp-server-instructions-demo).
 
-For example, with `issues` + `pull_requests` toolsets enabled, the server automatically guides models to link issues to PRs using "closes #123" syntax. With security toolsets enabled, it provides alert prioritization: secret scanning → dependabot → code scanning.
+For this sample of chat sessions, I got the following results:
+
+| Model | With Instructions | Without Instructions | Improvement |
+|-------|------------------|---------------------|-------------|
+| **GPT-5-Mini** | 8/10 (80%) | 2/10 (20%) | **+60%** |
+| **Claude Sonnet-4** | 9/10 (90%) | 10/10 (100%) | N/A |
+| **Overall** | 17/20 (85%) | 12/20 (60%) | **+25%** |
+
+In this example, GPT-5-Mini benefitted most from explicit workflow guidance, since Sonnet almost always followed the inline comment workflow by default.
 
 ## Implementing Server Instructions: General Tips For Server Developers
 

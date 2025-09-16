@@ -243,7 +243,6 @@ Consider a personalized AI travel planner application, with three connected serv
 #### The Complete Flow
 
 1. **User invokes a prompt with parameters:**
-
    ```json
    {
      "prompt": "plan-vacation",
@@ -258,13 +257,11 @@ Consider a personalized AI travel planner application, with three connected serv
    ```
 
 2. **User selects resources to include:**
-
    - `calendar://my-calendar/June-2024` (from Calendar Server)
    - `travel://preferences/europe` (from Travel Server)
    - `travel://past-trips/Spain-2023` (from Travel Server)
 
 3. **AI processes the request using tools:**
-
    The AI first reads all selected resources to gather context - identifying available dates from the calendar, learning preferred airlines and hotel types from travel preferences, and discovering previously enjoyed locations from past trips.
 
    Using this context, the AI then executes a series of Tools:

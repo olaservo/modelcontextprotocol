@@ -224,7 +224,6 @@ The `requestedSchema` field allows servers to define the structure of the expect
 The schema is restricted to these primitive types:
 
 1. **String Schema**
-
    ```json
    {
      "type": "string",
@@ -241,7 +240,6 @@ The schema is restricted to these primitive types:
    Supported formats: `email`, `uri`, `date`, `date-time`
 
 2. **Number Schema**
-
    ```json
    {
      "type": "number", // or "integer"
@@ -254,7 +252,6 @@ The schema is restricted to these primitive types:
    ```
 
 3. **Boolean Schema**
-
    ```json
    {
      "type": "boolean",
@@ -307,12 +304,10 @@ Elicitation responses use a three-action model to clearly distinguish between di
 The three response actions are:
 
 1. **Accept** (`action: "accept"`): User explicitly approved and submitted with data
-
    - The `content` field contains the submitted data matching the requested schema
    - Example: User clicked "Submit", "OK", "Confirm", etc.
 
 2. **Decline** (`action: "decline"`): User explicitly declined the request
-
    - The `content` field is typically omitted
    - Example: User clicked "Reject", "Decline", "No", etc.
 

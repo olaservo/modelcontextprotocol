@@ -10,8 +10,12 @@ export const CAPABILITIES = ['Resources', 'Prompts', 'Tools', 'Discovery', 'Samp
 export const filterStore = {
   state: { selectedCapabilities: [], searchText: '', visibleCount: 0, totalCount: 0 },
   listeners: new Set(),
-  setState(updates) {
-    this.state = { ...this.state, ...updates };
+  setState(updater) {
+    if (typeof updater === 'function') {
+      this.state = { ...this.state, ...updater(this.state) };
+    } else {
+      this.state = { ...this.state, ...updater };
+    }
     this.listeners.forEach(fn => fn(this.state));
   },
   subscribe(fn) {
@@ -88,7 +92,8 @@ export const ClientFilter = () => {
 
 export const ClientsSection = ({ children }) => {
   useEffect(() => {
-    filterStore.setState({ selectedCapabilities: [], searchText: '', visibleCount: 0, totalCount: 0 });
+    // Only reset filters, not counts (counts are managed by McpClient components)
+    filterStore.setState({ selectedCapabilities: [], searchText: '' });
   }, []);
 
   return (
@@ -137,14 +142,14 @@ export const McpClient = ({ name, homepage, supports, sourceCode, instructions, 
 
   // Track visible/total counts
   useEffect(() => {
-    filterStore.setState({ totalCount: filterStore.state.totalCount + 1 });
-    return () => filterStore.setState({ totalCount: filterStore.state.totalCount - 1 });
+    filterStore.setState(s => ({ totalCount: s.totalCount + 1 }));
+    return () => filterStore.setState(s => ({ totalCount: s.totalCount - 1 }));
   }, []);
 
   useEffect(() => {
     if (isVisible) {
-      filterStore.setState({ visibleCount: filterStore.state.visibleCount + 1 });
-      return () => filterStore.setState({ visibleCount: filterStore.state.visibleCount - 1 });
+      filterStore.setState(s => ({ visibleCount: s.visibleCount + 1 }));
+      return () => filterStore.setState(s => ({ visibleCount: s.visibleCount - 1 }));
     }
   }, [isVisible]);
 

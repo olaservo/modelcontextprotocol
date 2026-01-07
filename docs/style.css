@@ -45,6 +45,10 @@ body:has(#enable-section-numbers) {
     counter-set: h6-counter;
   }
 
+  #table-of-contents li a::before {
+    flex-shrink: 0;
+  }
+
   #content-area h2[id]::before,
   #table-of-contents li[data-depth="0"] a::before {
     counter-increment: h2-counter;
@@ -353,6 +357,29 @@ body:has(#schema-reference) {
 
     svg {
       display: none;
+    }
+  }
+}
+
+
+
+/*** LF Projects copyright footer ***/
+
+#lf-copyright {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid light-dark(rgb(var(--gray-950)/.1), rgba(255 255 255/0.1));
+  text-align: center;
+  font-size: 0.875rem;
+  color: rgb(var(--gray-500));
+  line-height: 1.5;
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+
+    &:hover {
+      color: rgb(var(--gray-700));
     }
   }
 }

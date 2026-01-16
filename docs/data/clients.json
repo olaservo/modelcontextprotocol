@@ -1,0 +1,286 @@
+{
+  "claude-code": {
+    "title": "Claude Code",
+    "url": "https://claude.ai/code",
+    "description": "Anthropic's agentic coding tool with full MCP support",
+    "protocolVersion": "2025-11-25",
+    "category": "cli",
+    "platforms": ["windows", "macos", "linux"],
+    "transports": {
+      "stdio": {}
+    },
+    "tools": { "listChanged": true },
+    "resources": { "listChanged": true, "subscribe": true },
+    "prompts": { "listChanged": true },
+    "sampling": { "tools": {} },
+    "elicitation": { "form": {}, "url": {} },
+    "roots": { "listChanged": true },
+    "completions": {},
+    "logging": {},
+    "instructions": {},
+    "metadata": {
+      "vendor": "Anthropic",
+      "openSource": false,
+      "lastVerified": "2026-01-15"
+    }
+  },
+  "visual-studio-code": {
+    "title": "Visual Studio Code",
+    "url": "https://code.visualstudio.com",
+    "description": "Microsoft's extensible code editor with GitHub Copilot MCP integration",
+    "protocolVersion": "2025-11-25",
+    "category": "ide",
+    "platforms": ["windows", "macos", "linux", "web"],
+    "transports": {
+      "stdio": {}
+    },
+    "authentication": {
+      "oauth": {
+        "version": "2.1",
+        "pkce": true,
+        "dynamicRegistration": true,
+        "grantTypes": ["authorization_code", "refresh_token"]
+      }
+    },
+    "tools": { "listChanged": true },
+    "resources": { "listChanged": true, "subscribe": true },
+    "prompts": { "listChanged": true },
+    "sampling": { "context": {}, "tools": {} },
+    "elicitation": { "form": {}, "url": {} },
+    "roots": { "listChanged": true },
+    "tasks": { "list": {}, "cancel": {} },
+    "metadata": {
+      "vendor": "Microsoft",
+      "openSource": true,
+      "sourceUrl": "https://github.com/microsoft/vscode",
+      "license": "MIT"
+    }
+  },
+  "cursor": {
+    "title": "Cursor",
+    "url": "https://cursor.com",
+    "description": "AI-first code editor built on VS Code",
+    "protocolVersion": "2025-06-18",
+    "category": "ide",
+    "platforms": ["windows", "macos", "linux"],
+    "transports": {
+      "stdio": {}
+    },
+    "tools": { "listChanged": true },
+    "resources": {},
+    "prompts": {},
+    "elicitation": {},
+    "roots": {},
+    "metadata": {
+      "vendor": "Cursor"
+    }
+  },
+  "claude-ai": {
+    "title": "Claude.ai",
+    "url": "https://claude.ai",
+    "description": "Anthropic's conversational AI with MCP integrations",
+    "protocolVersion": "2025-06-18",
+    "category": "chat",
+    "platforms": ["web"],
+    "transports": {
+      "stdio": { "status": "partial", "notes": "Via MCP remote server proxy" }
+    },
+    "tools": {},
+    "resources": {},
+    "prompts": {},
+    "metadata": {
+      "vendor": "Anthropic",
+      "openSource": false
+    }
+  },
+  "chatgpt": {
+    "title": "ChatGPT",
+    "url": "https://chatgpt.com",
+    "description": "OpenAI's conversational AI with MCP tool support",
+    "protocolVersion": "2025-06-18",
+    "category": "chat",
+    "platforms": ["web", "ios", "android"],
+    "transports": {
+      "stdio": { "status": "partial", "notes": "Via Actions/GPT builder" }
+    },
+    "tools": {},
+    "metadata": {
+      "vendor": "OpenAI",
+      "openSource": false
+    }
+  },
+  "cline": {
+    "title": "Cline",
+    "url": "https://cline.bot",
+    "description": "Autonomous coding agent for VS Code",
+    "protocolVersion": "2025-06-18",
+    "category": "ide",
+    "platforms": ["windows", "macos", "linux"],
+    "transports": {
+      "stdio": {}
+    },
+    "tools": { "listChanged": true },
+    "resources": {},
+    "metadata": {
+      "openSource": true,
+      "sourceUrl": "https://github.com/cline/cline"
+    }
+  },
+  "goose": {
+    "title": "Goose",
+    "url": "https://block.github.io/goose",
+    "description": "Open-source AI developer agent by Block",
+    "protocolVersion": "2025-03-26",
+    "category": "cli",
+    "platforms": ["windows", "macos", "linux"],
+    "transports": {
+      "stdio": {},
+      "streamableHttp": {}
+    },
+    "tools": {},
+    "resources": {},
+    "prompts": {},
+    "metadata": {
+      "vendor": "Block",
+      "openSource": true,
+      "sourceUrl": "https://github.com/block/goose",
+      "license": "Apache-2.0"
+    }
+  },
+  "jetbrains-ai-assistant": {
+    "title": "JetBrains AI Assistant",
+    "url": "https://www.jetbrains.com/ai/",
+    "description": "AI coding assistant integrated into JetBrains IDEs",
+    "protocolVersion": "2025-06-18",
+    "category": "ide",
+    "platforms": ["windows", "macos", "linux"],
+    "transports": {
+      "stdio": {}
+    },
+    "sampling": {},
+    "elicitation": {},
+    "roots": { "listChanged": true },
+    "metadata": {
+      "vendor": "JetBrains"
+    }
+  },
+  "windsurf": {
+    "title": "Windsurf Editor",
+    "url": "https://codeium.com/windsurf",
+    "description": "AI-powered IDE by Codeium",
+    "protocolVersion": "2025-03-26",
+    "category": "ide",
+    "platforms": ["windows", "macos", "linux"],
+    "transports": {
+      "stdio": {}
+    },
+    "tools": { "listChanged": true },
+    "metadata": {
+      "vendor": "Codeium"
+    }
+  },
+  "zed": {
+    "title": "Zed Editor",
+    "url": "https://zed.dev",
+    "description": "High-performance code editor with AI features",
+    "protocolVersion": "2025-03-26",
+    "category": "ide",
+    "platforms": ["windows", "macos", "linux"],
+    "transports": {
+      "stdio": {}
+    },
+    "tools": {},
+    "prompts": {},
+    "metadata": {
+      "vendor": "Zed Industries",
+      "openSource": true,
+      "sourceUrl": "https://github.com/zed-industries/zed",
+      "license": "GPL-3.0"
+    }
+  },
+  "gemini-cli": {
+    "title": "Gemini CLI",
+    "url": "https://github.com/google-gemini/gemini-cli",
+    "description": "Google's Gemini-powered CLI coding assistant",
+    "protocolVersion": "2025-06-18",
+    "category": "cli",
+    "platforms": ["windows", "macos", "linux"],
+    "transports": {
+      "stdio": {}
+    },
+    "tools": {},
+    "prompts": {},
+    "metadata": {
+      "vendor": "Google",
+      "openSource": true,
+      "sourceUrl": "https://github.com/google-gemini/gemini-cli",
+      "license": "Apache-2.0"
+    }
+  },
+  "amazon-q-developer-cli": {
+    "title": "Amazon Q Developer CLI",
+    "url": "https://github.com/aws/amazon-q-developer-cli",
+    "description": "AWS's AI-powered developer CLI",
+    "protocolVersion": "2025-06-18",
+    "category": "cli",
+    "platforms": ["windows", "macos", "linux"],
+    "transports": {
+      "stdio": {}
+    },
+    "tools": {},
+    "prompts": {},
+    "metadata": {
+      "vendor": "Amazon",
+      "openSource": true,
+      "sourceUrl": "https://github.com/aws/amazon-q-developer-cli"
+    }
+  },
+  "raycast": {
+    "title": "Raycast",
+    "url": "https://www.raycast.com",
+    "description": "Productivity launcher for macOS with AI features",
+    "protocolVersion": "2025-06-18",
+    "category": "browser-extension",
+    "platforms": ["macos"],
+    "transports": {
+      "stdio": {}
+    },
+    "roots": { "listChanged": true }
+  },
+  "mistral-le-chat": {
+    "title": "Mistral AI: Le Chat",
+    "url": "https://chat.mistral.ai",
+    "description": "Mistral's conversational AI with MCP support",
+    "protocolVersion": "2025-06-18",
+    "category": "chat",
+    "platforms": ["web"],
+    "transports": {
+      "stdio": {}
+    },
+    "sampling": {},
+    "elicitation": {},
+    "roots": { "listChanged": true },
+    "metadata": {
+      "vendor": "Mistral AI"
+    }
+  },
+  "openai-codex-cli": {
+    "title": "OpenAI Codex",
+    "url": "https://github.com/openai/codex",
+    "description": "OpenAI's lightweight coding agent CLI",
+    "protocolVersion": "2025-06-18",
+    "category": "cli",
+    "platforms": ["windows", "macos", "linux"],
+    "transports": {
+      "stdio": {}
+    },
+    "tools": {},
+    "elicitation": {},
+    "metadata": {
+      "vendor": "OpenAI",
+      "openSource": true,
+      "sourceUrl": "https://github.com/openai/codex",
+      "license": "Apache-2.0"
+    }
+  }
+}

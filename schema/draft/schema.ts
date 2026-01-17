@@ -1685,10 +1685,12 @@ export interface Tool extends BaseMetadata, Icons {
 
   /**
    * A JSON Schema object defining the expected parameters for the tool.
+   * While tools receive arguments as objects, this can be any valid JSON Schema to allow for
+   * sophisticated object validation patterns (like with "oneOf", "anyOf", etc.)
    *
    * Defaults to JSON Schema 2020-12 when no explicit `$schema` is provided.
    */
-  inputSchema: { [key: string]: unknown };
+  inputSchema: { $schema?: string; type: "object"; [key: string]: unknown };
 
   /**
    * Execution-related properties for this tool.
@@ -1697,11 +1699,11 @@ export interface Tool extends BaseMetadata, Icons {
 
   /**
    * An optional JSON Schema object defining the structure of the tool's output returned in
-   * the structuredContent field of a {@link CallToolResult}.
+   * the structuredContent field of a {@link CallToolResult}. This can be any valid JSON Schema 2020-12.
    *
    * Defaults to JSON Schema 2020-12 when no explicit `$schema` is provided.
    */
-  outputSchema?: { [key: string]: unknown };
+  outputSchema?: { $schema?: string; [key: string]: unknown };
 
   /**
    * Optional additional tool information.

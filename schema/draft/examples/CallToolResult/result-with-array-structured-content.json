@@ -2,7 +2,7 @@
   "content": [
     {
       "type": "text",
-      "text": "[{\"id\":\"1\",\"name\":\"Alice\",\"email\":\"alice@example.com\"},{\"id\":\"2\",\"name\":\"Bob\",\"email\":\"bob@example.com\"}]"
+      "text": "Found 2 users: Alice (alice@example.com) and Bob (bob@example.com)."
     }
   ],
   "structuredContent": [

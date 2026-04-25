@@ -13,7 +13,21 @@ Use this skill when the user wants to **build** an MCP client (the component ins
 
 - Building an MCP **server** — out of scope; a dedicated server skill will cover that.
 - Configuring an existing host (e.g. Claude Desktop, VS Code `mcp.json`) — that's host configuration, not client building.
-- SDK API reference or method signatures — the SDK doc sites at `*.sdk.modelcontextprotocol.io` and ecosystem hosts (`pkg.go.dev`, `docs.rs`) are authoritative. This skill routes you there.
+- SDK API reference or method signatures — the [official SDKs page](https://modelcontextprotocol.io/docs/sdk) is the canonical landing for every SDK and its tier. This skill routes you there and to the per-language doc sites.
+
+## Reference the spec by version, not `/latest/`
+
+When you cite a spec page during this work, **always use the dated path** (e.g., `/specification/2025-11-25/basic/lifecycle`), not `/specification/latest/...`. Reasons:
+
+- The user needs to know exactly which revision a behavior comes from. `/latest/` silently swaps versions when a new spec ships and can change the meaning of your citation under their feet.
+- If the user is building against a specific protocol version (because the host they target hasn't upgraded yet), citing `/latest/` may point them at a different revision than the one they actually negotiate.
+
+Two intentional exceptions:
+
+- **`/specification/draft/...`** — when you want to show what's coming in the next revision (e.g., when the user asks "is anyone working on a fix for X?" or is sketching a SEP).
+- **An older dated path** (e.g., `/specification/2025-06-18/...`) — when the user is explicitly working against a non-current version.
+
+The current revision and version policy are documented at [docs/learn/versioning](https://modelcontextprotocol.io/docs/learn/versioning). Check it once at the start of a session in case the current version has rolled forward since this skill was written.
 
 ## Discovery phase (ask before routing)
 
@@ -117,15 +131,32 @@ Only relevant if discovery answer (4) was "more than one server." Three patterns
 
 In all three patterns, **one client instance per server**. The pool multiplexes, it doesn't merge.
 
+**Once connected server count grows past a handful, naive "load every tool definition into context on every turn" stops working** — token cost and latency degrade fast. Read [Client Best Practices](https://modelcontextprotocol.io/docs/develop/clients/client-best-practices) for the two patterns that scale: **progressive tool discovery** (a `search_tools` meta-tool that defers loading definitions until needed) and **programmatic tool calling** (chained tool calls that don't round-trip large intermediate results through the model). These are the difference between a host that handles 5 servers and one that handles 50.
+
 ## Step 7 — Auth (only if remote + protected)
 
 Skip this step entirely if you're using stdio. stdio carries credentials via environment variables at subprocess spawn — no protocol-level auth.
 
-For Streamable HTTP against a protected server:
+For Streamable HTTP against a protected server, read in this order:
 
-- The MCP authorization spec is OAuth-based. See [Authorization](https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization).
+1. [Understanding Authorization in MCP](https://modelcontextprotocol.io/docs/tutorials/security/authorization) — friendly walkthrough of the client side of the OAuth flow with HTTP-level examples. Start here.
+2. [Authorization specification](https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization) — the normative reference.
+3. [Security best practices](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices) — attack vectors that affect clients (token passthrough, confused deputy via redirect handling). Required reading before shipping a client that initiates real OAuth flows.
+
+Other notes:
+
 - Production OAuth flows are non-trivial. A dedicated `add-mcp-auth` skill will cover remote-vs-local, OAuth vs API key, and enterprise IdP scenarios. For now, route to the spec and the user's chosen SDK's auth helpers.
 - **Enterprise IdP** requirements (e.g. corporate SSO) have their own extension: [Enterprise-managed authorization](https://modelcontextprotocol.io/extensions/auth/enterprise-managed-authorization).
+
+## Step 8 — Sanity-check with the Inspector
+
+Before shipping, point the [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector) at the same servers your client will talk to. The Inspector is server-side oriented (it acts as a generic client), so it's the easiest way to:
+
+- Verify that a server actually behaves the way you think it does — especially if your client is producing unexpected results and you need to isolate "is it me or the server?"
+- See the exact JSON-RPC payloads on the wire, which is the level you have to debug at when something is wrong.
+- Try out tools/resources/prompts manually to confirm capability negotiation worked.
+
+For deeper investigation, see [Debugging](https://modelcontextprotocol.io/docs/tools/debugging).
 
 ## Using the mcp-docs MCP server for lookups
 
@@ -140,4 +171,4 @@ Search term tip (same as in `search-mcp-github`): GitHub and the docs index don'
 - **Server-building.** A separate `build-mcp-server` skill will cover that.
 - **Host configuration** — Claude Desktop `config.json`, VS Code `mcp.json`, Cursor settings. Different audience; if the user just wants to *use* an existing MCP server in an existing host, they don't need to build a client at all.
 - **Framework integrations** — LangChain, LlamaIndex, Vercel AI SDK adapters. These projects have their own docs.
-- **Testing, evaluation, and debugging.** See [Debugging](https://modelcontextprotocol.io/docs/tools/debugging) and [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector) for now; a future `debug-mcp` skill will go deeper.
+- **Deeper testing and evaluation.** Step 8 covers the Inspector and [Debugging](https://modelcontextprotocol.io/docs/tools/debugging) page as the standard checks. A future `debug-mcp` skill will go deeper into automated client-side test harnesses.

@@ -2,6 +2,8 @@
 
 Use this table to route the user to the right SDK documentation based on their language choice. **Do not duplicate SDK content here** — always link out.
 
+> **Canonical SDK index:** the docs maintain an authoritative [SDKs page](https://modelcontextprotocol.io/docs/sdk) listing every official SDK with its repo and tier badge. Cite that as the source of truth — the URLs in the table below mirror it, but if any drift, the docs page wins.
+>
 > **Note on tiers.** The groupings below are about **documentation depth**, not about the official [MCP SDK Tiering System](https://modelcontextprotocol.io/community/sdk-tiers) (which measures feature completeness, conformance, and maintenance commitments). The two are orthogonal: a Tier 1 SDK can still be documentation-light, and vice versa. For feature-completeness questions (does this SDK support sampling yet? elicitation?), check the official SDK tiering page and the SDK's own changelog.
 
 ## Rich tier — link directly
@@ -11,7 +13,7 @@ Comprehensive guides, multiple narrative walkthroughs, and many code examples. P
 | Language | Landing page | Client-side notes |
 |---|---|---|
 | **TypeScript** | [ts.sdk.modelcontextprotocol.io](https://ts.sdk.modelcontextprotocol.io/) | Mature client API; good examples for stdio and Streamable HTTP. Default recommendation for JavaScript/TypeScript hosts. |
-| **Python** | [modelcontextprotocol.github.io/python-sdk](https://modelcontextprotocol.github.io/python-sdk/) | Mature client API. FastMCP patterns are server-oriented — look for the `ClientSession` / client examples specifically. |
+| **Python** | [py.sdk.modelcontextprotocol.io](https://py.sdk.modelcontextprotocol.io/) | Mature client API. FastMCP patterns are server-oriented — look for the `ClientSession` / client examples specifically. |
 | **Kotlin** | [kotlin.sdk.modelcontextprotocol.io](https://kotlin.sdk.modelcontextprotocol.io/) | Published site is richer than the repo README. Good fit for JVM/Android hosts. |
 
 ## Moderate tier — link + check caveats
@@ -21,9 +23,9 @@ API reference is solid; narrative documentation may be thinner. The SDK site is 
 | Language | Landing page | Client-side notes |
 |---|---|---|
 | **Java** | [java.sdk.modelcontextprotocol.io](https://java.sdk.modelcontextprotocol.io/) | Published site has getting-started content, feature guides, and component documentation **not present in the repo**. Always check the published site first. |
-| **Go** | [pkg.go.dev/github.com/modelcontextprotocol/go-sdk](https://pkg.go.dev/github.com/modelcontextprotocol/go-sdk) | Auto-generated GoDoc. No dedicated doc site yet; read the repo README and examples directory alongside the API docs. |
+| **Go** | [go.sdk.modelcontextprotocol.io](https://go.sdk.modelcontextprotocol.io/) | Official SDK landing. Pair with `pkg.go.dev/github.com/modelcontextprotocol/go-sdk` for auto-generated GoDoc reference. |
 | **C#** | [csharp.sdk.modelcontextprotocol.io](https://csharp.sdk.modelcontextprotocol.io/) | Landing page is thin; the repo has DocFX concept guides worth reading if the published site doesn't answer your question. |
-| **Rust (`rmcp`)** | [docs.rs/rmcp](https://docs.rs/rmcp/latest/rmcp) | Pre-1.0. API may still churn. Verify client-side feature support in the crate's changelog before committing. |
+| **Rust** | [rust.sdk.modelcontextprotocol.io](https://rust.sdk.modelcontextprotocol.io/) | Crate is `rmcp`. Verify client-side feature support in the crate's changelog before committing. |
 
 ## Light tier — link + verify client support
 
@@ -32,8 +34,8 @@ Documentation is mostly auto-generated API reference, minimal narrative, or abse
 | Language | Landing page | Client-side notes |
 |---|---|---|
 | **PHP** | [php.sdk.modelcontextprotocol.io](https://php.sdk.modelcontextprotocol.io/) | Mostly auto-generated reference. |
-| **Ruby** | [modelcontextprotocol.github.io/ruby-sdk](https://modelcontextprotocol.github.io/ruby-sdk/) | Minimal published docs. |
-| **Swift** | [github.com/modelcontextprotocol/swift-sdk](https://github.com/modelcontextprotocol/swift-sdk) | No docs site. Read the repo README + source directly. |
+| **Ruby** | [ruby.sdk.modelcontextprotocol.io](https://ruby.sdk.modelcontextprotocol.io/) | Minimal published docs. |
+| **Swift** | [github.com/modelcontextprotocol/swift-sdk](https://github.com/modelcontextprotocol/swift-sdk) | No dedicated docs site. Read the repo README + source directly. |
 
 If the user is committed to a Light-tier SDK and the docs don't cover what they need, the right move is to **contribute examples upstream to the SDK repo first**, then link from your code. Don't let the client implementation become shadow documentation.
 

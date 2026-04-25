@@ -13,7 +13,21 @@ Use this skill when the user wants to **build** an MCP server (a process that ex
 
 - Building an MCP **client** — see the companion `build-mcp-client` skill.
 - Just *running* an existing server in a host (Claude Desktop, VS Code) — that's host configuration, not server building.
-- SDK API reference or method signatures — the SDK doc sites at `*.sdk.modelcontextprotocol.io` and ecosystem hosts (`pkg.go.dev`, `docs.rs`) are authoritative. This skill routes you there.
+- SDK API reference or method signatures — the [official SDKs page](https://modelcontextprotocol.io/docs/sdk) is the canonical landing for every SDK and its tier. This skill routes you there and to the per-language doc sites.
+
+## Reference the spec by version, not `/latest/`
+
+When you cite a spec page during this work, **always use the dated path** (e.g., `/specification/2025-11-25/basic/lifecycle`), not `/specification/latest/...`. Reasons:
+
+- The user needs to know exactly which revision a behavior comes from. `/latest/` silently swaps versions when a new spec ships and can change the meaning of your citation under their feet.
+- If the user is building against a specific protocol version (because the host they target hasn't upgraded yet), citing `/latest/` may point them at a different revision than the one they actually negotiate.
+
+Two intentional exceptions:
+
+- **`/specification/draft/...`** — when you want to show what's coming in the next revision (e.g., when the user asks "is anyone working on a fix for X?" or is sketching a SEP).
+- **An older dated path** (e.g., `/specification/2025-06-18/...`) — when the user is explicitly working against a non-current version.
+
+The current revision and version policy are documented at [docs/learn/versioning](https://modelcontextprotocol.io/docs/learn/versioning). Check it once at the start of a session in case the current version has rolled forward since this skill was written.
 
 ## Discovery phase (ask before routing)
 
@@ -103,7 +117,7 @@ Add primitives incrementally. Start with the smallest set that proves the use ca
 
 Each feature has implementation traps that aren't in the concept docs — see [`references/server-features.md`](references/server-features.md) for the full list. One-line summary:
 
-- **Tools.** Names and descriptions are the model's only window into what you do. Bad names = unused tools. Annotate destructive tools. Sanitize errors.
+- **Tools.** Names and descriptions are the model's only window into what you do. Bad names = unused tools. Annotate destructive tools. Sanitize errors. Production hosts often run [progressive tool discovery](https://modelcontextprotocol.io/docs/develop/clients/client-best-practices#progressive-tool-discovery) — your tool *names and descriptions* are what they search over, so write them to be discoverable.
 - **Resources.** Decide *now* whether resources are static, list-changed-notifying, or subscribable — wire churn later is expensive. URI templates need careful design.
 - **Prompts.** Validate arguments against your declared schema before substituting. Prompts are user-invoked, so the names are user-facing.
 - **Completion.** Optional. Useful for prompt arguments and resource URI templates. Skip unless your prompts have real argument spaces worth completing.
@@ -125,10 +139,16 @@ Most servers don't need to ask the client for anything beyond responding to tool
 
 Skip this step entirely if you're using stdio. stdio receives credentials via environment variables at spawn time — no protocol-level auth.
 
-For Streamable HTTP servers exposing protected data:
+For Streamable HTTP servers exposing protected data, read in this order:
 
-- The MCP authorization spec is OAuth-based. Your server is the **resource server**; you typically delegate token issuance to a separate authorization server (your existing IdP, Auth0, etc.). See [Authorization](https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization).
-- Non-obvious: the spec assumes one *user* per session. If your server is multi-tenant, the OAuth token tells you which user is connected; you must scope every tool call's data access by that user. Don't leak across tenants.
+1. [Understanding Authorization in MCP](https://modelcontextprotocol.io/docs/tutorials/security/authorization) — the friendly walkthrough of the resource-server flow with HTTP-level examples. Start here.
+2. [Authorization specification](https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization) — the normative reference.
+3. [Security best practices](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices) — attack vectors specific to MCP (confused deputy, token passthrough, session fixation). **Required reading** before deploying a public Streamable HTTP server.
+
+Non-obvious server-side details:
+
+- Your server is the **resource server**; you typically delegate token issuance to a separate authorization server (your existing IdP, Auth0, etc.). The spec doesn't require you to be your own auth server.
+- The spec assumes one *user* per session. If your server is multi-tenant, the OAuth token tells you which user is connected; you must scope every tool call's data access by that user. Don't leak across tenants.
 - If you need OAuth client credentials (machine-to-machine, no user) instead of authorization-code flow, see the [OAuth client credentials extension](https://modelcontextprotocol.io/extensions/auth/oauth-client-credentials).
 - For corporate SSO scenarios, see [Enterprise-managed authorization](https://modelcontextprotocol.io/extensions/auth/enterprise-managed-authorization).
 
@@ -159,4 +179,4 @@ Search term tip: GitHub and the docs index don't split camelCase. Search both `s
 - **Client-building.** See the companion `build-mcp-client` skill.
 - **Deployment and hosting recipes** — Cloudflare Workers, Vercel, AWS Lambda, Kubernetes patterns for hosting Streamable HTTP servers. SDK ecosystems and third-party platforms own these; the MCP docs don't currently centralize them. A future `deploy-mcp-server` skill may.
 - **Distribution to host registries** — getting your server listed in client registries, app stores, or marketplaces. Each host has its own listing process.
-- **Domain-specific server design** — naming tools well, structuring resources, designing prompt UX. These are app-design concerns; useful design references include the spec's [security best practices](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices) and the [client best practices](https://modelcontextprotocol.io/docs/develop/clients/client-best-practices) page (read it from the *server* perspective to understand what good clients expect from you).
+- **Domain-specific server design** — naming tools well, structuring resources, designing prompt UX. These are app-design concerns; useful design references include the [Security best practices](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices) tutorial and the [Client best practices](https://modelcontextprotocol.io/docs/develop/clients/client-best-practices) page (read it from the *server* perspective to understand what good clients expect from you).

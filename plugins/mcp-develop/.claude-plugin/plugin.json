@@ -1,0 +1,17 @@
+{
+  "name": "mcp-develop",
+  "version": "0.1.0",
+  "description": "Learn MCP and build clients, servers, and apps on top of it",
+  "author": {
+    "name": "Model Context Protocol"
+  },
+  "repository": "https://github.com/modelcontextprotocol/modelcontextprotocol",
+  "license": "Apache-2.0",
+  "keywords": ["mcp", "model-context-protocol", "agent-skills", "client", "server", "tutorial"],
+  "mcpServers": {
+    "mcp-docs": {
+      "type": "http",
+      "url": "https://modelcontextprotocol.io/mcp"
+    }
+  }
+}

@@ -4,13 +4,18 @@
     "name": "Model Context Protocol"
   },
   "metadata": {
-    "description": "Official Claude Code plugins for the Model Context Protocol"
+    "description": "Agent skills for working with the Model Context Protocol"
   },
   "plugins": [
     {
       "name": "mcp-spec",
       "source": "./plugins/mcp-spec",
-      "description": "Skills for researching and contributing to the MCP specification"
+      "description": "Research and contribute to the Model Context Protocol specification"
+    },
+    {
+      "name": "mcp-develop",
+      "source": "./plugins/mcp-develop",
+      "description": "Learn MCP and build clients, servers, and apps on top of it"
     }
   ]
 }

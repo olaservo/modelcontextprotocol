@@ -1,0 +1,10 @@
+{
+  "name": "mcp-spec",
+  "version": "0.1.0",
+  "description": "Skills for researching and contributing to the MCP specification",
+  "keywords": ["mcp", "model-context-protocol", "specification", "github", "research"],
+  "mcpServers": "./.codex-plugin/mcp.json",
+  "interface": {
+    "displayName": "MCP Spec"
+  }
+}

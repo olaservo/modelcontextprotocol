@@ -575,7 +575,7 @@ Existing implementations using other `skill://` URI structures will need to adju
 
 ## Security Implications
 
-Skill content is instructional text delivered to a model, which makes it a prompt-injection surface (background in [open-questions.md §10](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/open-questions.md#10-how-should-skills-handle-security-and-trust-boundaries)). This extension imposes the following requirements:
+Skill content is instructional text delivered to a model, which makes it a prompt-injection surface (background in [open-questions.md §10](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/archive/open-questions.md#10-how-should-skills-handle-security-and-trust-boundaries)). This extension imposes the following requirements:
 
 - **Skill content is untrusted input.** Hosts MUST treat MCP-served skill content as untrusted model input, subject to the same prompt-injection defenses applied to any server-provided text. A server being connected does not make its skill content authoritative.
 - **Origin MUST be visible to the model.** Hosts MUST tag MCP-served skill content with its originating server identity at the point it enters model context and MUST NOT present an MCP-served skill to the model as indistinguishable from a local filesystem skill. The model, not the host, decides whether to follow a skill's instructions. Withholding origin from it makes the untrusted-input requirement above unenforceable at the layer that acts on it.
@@ -641,7 +641,7 @@ The cost of removal is the one archives were introduced to address: a skill with
 - [Decision Log](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/decisions.md): Working Group decisions and rationale
 - [Experimental Findings](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/experimental-findings.md): results from implementations (WIP)
 - [Related Work](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/related-work.md): survey of existing skill-serving implementations
-- [Skill `_meta` Keys](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/skill-meta-keys.md): `_meta` key conventions for skill resources
+- [Skill `_meta` Keys](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/archive/skill-meta-keys.md): `_meta` key conventions for skill resources
 - [RFC 3986: URIs](https://datatracker.ietf.org/doc/html/rfc3986)
 
 [SEP-2076]: https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2076

@@ -27,13 +27,13 @@ This change was submitted despite me reading the rules and understanding AI cont
 ## Documentation Structure
 
 - `docs/` - Mintlify site (`npm run serve:docs`)
-  - `docs/docs/` - guides and tutorials
+  - `docs/docs/` - guides and tutorials, versioned like the spec: `docs/docs/draft/` for in-progress work, `docs/docs/[YYYY-MM-DD]/` per released spec version
   - `docs/specification/` - MCP specification (more formal, versioned)
 - `blog/` - Hugo blog (`npm run serve:blog`)
 
 ### Documentation Guidelines
 
-- When creating flowcharts, and graphs to visualize aspect of the protocol, use mermaid diagrams where
+- When creating flowcharts and graphs to visualize aspects of the protocol, use mermaid diagrams where
   possible.
 - When writing tables, ensure column headers and columns are aligned with whitespace.
 - Before pushing or creating PR's ensure that `npm run prep` is free of warnings and errors.
